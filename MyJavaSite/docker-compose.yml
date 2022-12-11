@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+  app:
+    image: 'plus_lab'
+    build: .
+
+    ports:
+      - "1404:1404"
+
+    volumes:
+      - .:/app
+
+    container_name: plus_lab_container
+    depends_on:
+      - db
+    environment:
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=mysqldocker2022
+      - DATABASE_DRIVER=com.mysql.cj.jdbc.Driver
+      - DATABASE_URL=jdbc:mysql://plus_lab_container:3306/pages_solution
+
+  db:
+    container_name: db_plus_lab_container
+    image: mysql
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=mysqldocker2022

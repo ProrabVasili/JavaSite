@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html xmlns:th = "http://www.thymeleaf.org" lang = "en">
+<head>
+    <title th:text = "${title}" />
+    <meta http-equiv = "Content-Type" content = "text/html; charset=UTF-8" />
+    <link rel = "stylesheet" href = "https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+    <link th:href = "@{/css/main.css}" rel = "stylesheet" />
+    <link rel="icon" type="image/x-icon" th:href = "@{img/logo.jpg}">
+</head>
+<body>
+    <div class = "block-menu">
+        <br><p>Визначення типу поверхні другого порядку</p>
+    </div>
+    <br>
+    <div class = "main">
+        <br>
+        <form action = "/submit" method = "post">
+            <input id = "POST-a11" type = "text" name = "a11" placeholder = "0" size = "3">
+            <label for = "POST-a11">x² +</label>
+            <input id = "POST-a22" type = "text" name = "a22" placeholder = "0" size = "3">
+            <label for = "POST-a22">y² +</label>
+            <input id = "POST-a33" type = "text" name = "a33" placeholder = "0" size = "3">
+            <label for = "POST-a33">z² +</label>
+            <input id = "POST-a12" type = "text" name = "a12" placeholder = "0" size = "3">
+            <label for = "POST-a12">xy +</label>
+            <input id = "POST-a13" type = "text" name = "a13" placeholder = "0" size = "3">
+            <label for = "POST-a13">xz +</label>
+            <input id = "POST-a23" type = "text" name = "a23" placeholder = "0" size = "3">
+            <label for = "POST-a23">yz +</label>
+            <input id = "POST-a1" type = "text" name = "a1" placeholder = "0" size = "3">
+            <label for = "POST-a1">x +</label>
+            <input id = "POST-a2" type = "text" name = "a2" placeholder = "0" size = "3">
+            <label for = "POST-a2">y +</label>
+            <input id = "POST-a3" type = "text" name = "a3" placeholder = "0" size = "3">
+            <label for = "POST-a3">z +</label>
+            <input id = "POST-a0" type = "text" name = "a0" placeholder = "0" size = "3">
+            <label for="POST-a0">= 0</label>
+            <input class = "send" type = "submit" value = "Визначити тип">
+        </form>
+    </div>
+    <div class = "main">
+        <p class = "error" th:text = "${success} ? 'Вуп' : ${Errors}" />
+        <p class = "error" th:text = "${postsLen} ? '' : 'Список введених рівнянь пустий'" />
+        <div th:each = "equ : ${posts}" class = "alert alert-info mt-2">
+            <h3 th:text = "${equ.equation}" />
+            <p th:text = "${equ.surfaceType}" />
+            <a th:href = "'/equation/' + ${equ.id}">Подивитись детальніше</a>
+        </div>
+    </div>
+</body>
+</html>
