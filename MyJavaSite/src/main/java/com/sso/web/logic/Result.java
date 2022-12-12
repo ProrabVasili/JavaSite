@@ -7,8 +7,8 @@ import static com.sso.web.logic.Det.*;
 import static com.sso.web.logic.HideSeekType.*;
 import static com.sso.web.logic.TextAdd.*;
 
-public class Result {
-    public static void answerHTML(ModelMap model, double[] arr) {
+public interface Result {
+    static void answerHTML(ModelMap model, double[] arr) {
         String[] types = {"Еліпсоїд", "Уявний\\,еліпсоїд", "Уявний\\,конус", "Однопорожнинний\\,гіперболоїд", "Двопорожнинний\\,гіперболоїд", "Конус", "Еліптичний\\,параболоїд", "Гіперболічний\\,параболоїд", "Еліптичний\\,циліндр", "Уявний\\,еліптичний\\,циліндр", "Пара\\,уявних\\,площин,\\,що\\,перетинаються", "Гіперболічний\\,циліндр", "Пара\\,площин,\\,що\\,перетинаються", "Пара\\,паралельних\\,площин", "Пара\\,уявних\\,паралельних\\,площин", "Пара\\,площин,\\,що\\,збігаються", "Параболічний\\,циліндр"};
         int numberType = (int) model.getAttribute("numberOfType");
         String typeSSO = types[numberType-1];
@@ -73,7 +73,7 @@ public class Result {
         model.addAttribute("typeSSO", arr[5]);
     }
 
-    public static void solution(ModelMap model, double[] a) {
+    static void solution(ModelMap model, double[] a) {
         addAtrs(model, a);
         myDets(model, a);
         typeSSO(model);

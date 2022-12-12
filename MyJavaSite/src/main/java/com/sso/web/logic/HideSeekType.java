@@ -4,12 +4,12 @@ import org.springframework.ui.ModelMap;
 
 import static com.sso.web.logic.Butler.*;
 
-public class HideSeekType {
-    public static void setType(ModelMap model, int num) {
+public interface HideSeekType {
+    static void setType(ModelMap model, int num) {
         model.addAttribute("numberOfType", num);
     }
 
-    public static void typeSSO(ModelMap model) {
+    static void typeSSO(ModelMap model) {
         double  I1 = convertToDouble(model, "I1"),
                 I2 = convertToDouble(model, "I2"),
                 I3 = convertToDouble(model, "I3"),

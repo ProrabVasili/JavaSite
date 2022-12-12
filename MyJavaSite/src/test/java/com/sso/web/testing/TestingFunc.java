@@ -8,16 +8,6 @@ import static com.sso.web.logic.CheckCount.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestingFunc {
-    private final double[] nums = {4, 5, 8, -8, 4, 3, 0, -1, 10, 13};
-    private final String[] namesAtr = {"a11", "a22", "a33", "a12", "a13", "a23", "a1", "a2", "a3", "a0"};
-
-    ModelMap cart = new ModelMap();
-
-    private static String replaceLatexSpace(String text) {
-        return text.replace("\\,", " ");
-    }
-
-
     @org.junit.jupiter.api.Test
     public void DoubleArrToString() {
         double[] arr = {1, 4, 5};

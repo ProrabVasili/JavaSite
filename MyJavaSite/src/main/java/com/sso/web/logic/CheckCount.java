@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import static com.sso.web.logic.Butler.*;
 
-public class CheckCount {
-    public static String countErrors(double[] arr) {
+public interface CheckCount {
+    static String countErrors(double[] arr) {
         ArrayList<String> errors = new ArrayList<>();
         for (int i = 0;i<arr.length;i++)
             if (arr[i] == Double.MAX_VALUE)
@@ -13,7 +13,7 @@ public class CheckCount {
         return String.join(", ", errors);
     }
 
-    public static int cntZero(double[] arr) {
+    static int cntZero(double[] arr) {
         int cnt = 0;
         for (double i:arr)
             if (i == 0)
@@ -21,7 +21,7 @@ public class CheckCount {
         return cnt;
     }
 
-    public static double[] checkNum(String[] numbers) {
+    static double[] checkNum(String[] numbers) {
         double[] dnum = new double[numbers.length];
         double num;
         for (int i = 0;i<numbers.length;i++){
