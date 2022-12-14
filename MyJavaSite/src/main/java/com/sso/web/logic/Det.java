@@ -2,8 +2,8 @@ package com.sso.web.logic;
 
 import org.springframework.ui.ModelMap;
 
-public interface Det{
-    static double det(double[][] arr){
+public class Det{
+    public double det(double[][] arr){
         if (arr.length == 2)
             return arr[0][0]*arr[1][1]-arr[0][1]*arr[1][0];
         else if (arr.length == 3)
@@ -31,56 +31,56 @@ public interface Det{
         }
     }
 
-    static String det2(String[] nums) {
+    public String det2(String[] nums) {
         return "\\(\\begin{vmatrix} " + nums[0] + " & " + nums[1] + " \\\\ " + nums[1] + " & " + nums[2] + " \\end{vmatrix} \\)";
     }
 
-    static String det2(double[] nums) {
+    public String det2(double[] nums) {
         String[] arr = new String[nums.length];
         for (int i = 0; i < nums.length; i++)
             arr[i] = Double.toString(nums[i]);
         return det2(arr);
     }
 
-    static String sumDet2(String[] nums) {
+    public String sumDet2(String[] nums) {
         return " "+det2 (new String[] {nums[0], nums[1], nums[2]}) + " + " + det2 (new String[]{nums[3], nums[4], nums[5]}) + " + " + det2 (new String[]{nums[6], nums[7], nums[8]});
     }
 
-    static String sumDet2(double[] nums) {
+    public String sumDet2(double[] nums) {
         return " "+det2 (new double[] {nums[0], nums[1], nums[2]}) + " + " + det2 (new double[]{nums[3], nums[4], nums[5]}) + " + " + det2 (new double[]{nums[6], nums[7], nums[8]});
     }
 
-    static String det3(String[] nums) {
+    public String det3(String[] nums) {
         return "\\(\\begin{vmatrix} " + nums[0] + " & " + nums[1] + " & " + nums[2] + " \\\\ " + nums[1] + " & " + nums[3] + " & " + nums[4] + " \\\\ " + nums[2] + " & " + nums[4] + " & " + nums[5] + " \\end{vmatrix} \\)";
     }
 
-    static String det3(double[] nums) {
+    public String det3(double[] nums) {
         String[] arr = new String[nums.length];
         for (int i = 0; i < nums.length; i++)
             arr[i] = Double.toString(nums[i]);
         return det3(arr);
     }
 
-    static String sumDet3(String[] nums) {
+    public String sumDet3(String[] nums) {
         return " "+det3(new String[] {nums[0], nums[1], nums[2], nums[3], nums[4], nums[5]}) + " + " + det3(new String[] {nums[0], nums[6], nums[2], nums[7], nums[8], nums[5]}) + " + " + det3(new String[]{nums[3], nums[9], nums[4], nums[7], nums[8], nums[5]});
     }
 
-    static String sumDet3(double[] nums) {
+    public String sumDet3(double[] nums) {
         return " "+det3(new double[] {nums[0], nums[1], nums[2], nums[3], nums[4], nums[5]}) + " + " + det3(new double[] {nums[0], nums[6], nums[2], nums[7], nums[8], nums[5]}) + " + " + det3(new double[]{nums[3], nums[9], nums[4], nums[7], nums[8], nums[5]});
     }
 
-    static String det4(String[] nums) {
+    public String det4(String[] nums) {
         return "\\(\\begin{vmatrix} " + nums[0] + " & " + nums[1] + " & " + nums[2] + " & " + nums[3] +" \\\\ " + nums[1] + " & " + nums[4] + " & " + nums[5] + " & " + nums[6] + " \\\\ " + nums[2] + " & " + nums[5] + " & " + nums[7] + " & " + nums[8] + " \\\\ " + nums[3] + " & " + nums[6] + " & " + nums[8] + " & " + nums[9] + " \\end{vmatrix} \\)";
     }
 
-    static String det4(double[] nums) {
+    public String det4(double[] nums) {
         String[] arr = new String[nums.length];
         for (int i = 0; i < nums.length; i++)
             arr[i] = Double.toString(nums[i]);
         return det4(arr);
     }
 
-    static void myDets(ModelMap model, double[] numbers){
+    public void myDets(ModelMap model, double[] numbers){
         double d11 = numbers[0];
         double d22 = numbers[1];
         double d33 = numbers[2];

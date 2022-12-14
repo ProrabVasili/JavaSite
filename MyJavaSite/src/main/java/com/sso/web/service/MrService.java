@@ -1,52 +1,59 @@
 package com.sso.web.service;
 
-import com.sso.web.logic.GetCoeff;
+import com.sso.web.logic.*;
 import com.sso.web.models.Equation;
 import com.sso.web.repository.EquationsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
-import static com.sso.web.logic.Butler.*;
-import static com.sso.web.logic.CheckCount.*;
-import static com.sso.web.logic.Result.solution;
+@Service
+public class MrService {
+    @Autowired
+    private EquationsRepository equRepository;
 
-public interface MrService {
-    static void startSite(EquationsRepository repository, ModelMap model) {
+    private final Butler butler = new Butler();
+    private final Result result = new Result();
+    private final CheckCount check = new CheckCount();
+    private boolean start = true;
+
+    public void startSite(ModelMap model) {
         if (start) {
-            repository.deleteAll();
+            equRepository.deleteAll();
             start = false;
         }
-        Iterable<Equation> posts = repository.findAll();
+        Iterable<Equation> posts = equRepository.findAll();
         model.addAttribute("posts", posts);
-        if (repository.count() != 0)
+        if (equRepository.count() != 0)
             model.addAttribute("postsLen", "Len");
         model.addAttribute("title", "Main page");
 
     }
 
-    static int addingEquation(EquationsRepository repository, ModelMap model, GetCoeff aStr){
-        double[] a = checkNum(aStr.gimmeNum());
-        String errorNum = countErrors(a);
-        if (errorNum.length() != 0 || cntZero(a) == 10) {
+    public int addingEquation(ModelMap model, GetCoeff aStr){
+        double[] a = check.checkNum(aStr.gimmeNum());
+        String errorNum = check.countErrors(a);
+        if (errorNum.length() != 0 || check.cntZero(a) == 10) {
             model.addAttribute("Errors", "Помилка! Ви ввели " + (errorNum.length() != 0  ? "неправильно дані в: " + errorNum:"лише нулі!"));
             model.addAttribute("postsLen", "Len");
             return 0;
         }
         else {
-            solution(model, a);
-            addNewEquation(repository, model, a);
+            result.solution(model, a);
+            butler.addNewEquation(equRepository, model, a);
             return 1;
         }
     }
 
-    static void representSolution(EquationsRepository repository, ModelMap model, long id) {
-        Optional<Equation> post = repository.findById(id);
+    public void representSolution(ModelMap model, long id) {
+        Optional<Equation> post = equRepository.findById(id);
         ArrayList<Equation> res = new ArrayList<>();
         post.ifPresent(res::add);
-        double[] arr = arrStringToDouble(res);
-        solution(model, arr);
+        double[] arr = butler.arrStringToDouble(res);
+        result.solution(model, arr);
         model.addAttribute("button1", "btn");
     }
 }
