@@ -1,7 +1,7 @@
 package com.sso.web.controllers;
 
+import com.sso.web.presentation.PageWritter;
 import com.sso.web.repository.EquationsRepository;
-import com.sso.web.service.MrService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -13,24 +13,22 @@ import com.sso.web.logic.GetCoeff;
 public class MainController {
 
     @Autowired
-    private final MrService mrs = new MrService();
+    private EquationsRepository equRepository;
 
     @RequestMapping(value ="/", method = RequestMethod.GET)
     public String home(ModelMap model) {
-        mrs.startSite(model);
+        PageWritter.startSite(equRepository, model);
         return "home";
     }
 
     @RequestMapping(value ="/submit", method = RequestMethod.POST)
-    public String getInput(ModelMap model, GetCoeff aStr) {
-        if (mrs.addingEquation(model, aStr) == 1)
-            return "result";
-        return "home";
+    public String getInput(ModelMap model, GetCoeff coeffEquation) {
+        return PageWritter.addingEquation(equRepository, model, coeffEquation);
     }
 
     @GetMapping("/equation/{id}")
     public String pageShower(@PathVariable(value = "id") long id, ModelMap model) {
-        mrs.representSolution(model, id);
+        PageWritter.representSolution(equRepository, id, model);
         return "result";
     }
 }

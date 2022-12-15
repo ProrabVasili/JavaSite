@@ -1,28 +1,32 @@
 package com.sso.web.logic;
 
-import org.springframework.ui.ModelMap;
 
-public class TextAdd{
+public class TextAdd extends Det {
+
+    private double[] coeffs = new double[10];
+
+    public TextAdd(double[] arr) {
+        System.arraycopy(arr, 0, this.coeffs, 0, 10);
+    }
     public String latexText(String text) {
         return "\\(" + text + "\\)";
     }
-    private final Det dets = new Det();
     private final String[] mults = {"x²", "y²", "z²", "xy", "xz", "yz", "x", "y", "z", " = 0"};
     private final String[] aLatex = {"a_{11}", "a_{22}", "a_{33}", "a_{12}",  "a_{13}", "a_{23}", "a_{1}", "a_{2}", "a_{3}", "a_{0}"};
 
-    public void textK1(ModelMap model, String[] arr) {
-        model.addAttribute("textK1", "\\(\\begin{vmatrix} " + arr[0] + " & " + arr[1] + " \\\\ " + arr[1] + " & " + arr[2] + " \\end{vmatrix} \\)");
+    public String textK1(String[] arr) {
+        return "\\(\\begin{vmatrix} " + arr[0] + " & " + arr[1] + " \\\\ " + arr[1] + " & " + arr[2] + " \\end{vmatrix} \\)";
     }
 
-    public String equation(double[] arr, String[] mults) {
-        StringBuilder text = new StringBuilder(arr[0] + "x²");
-        for (int i = 1;i<arr.length;i++)
-            text.append(valueEqu(arr[i], mults[i]));
+    public String equation() {
+        StringBuilder text = new StringBuilder(this.coeffs[0] + "x²");
+        for (int i = 1;i<this.coeffs.length;i++)
+            text.append(valueEqu(this.coeffs[i], this.mults[i]));
         return text.toString();
     }
-    public void allEquation(ModelMap model, double[] arr) {
-        String text = "Рівняння\\,поверхні:\\\\[0.1in]" + equation(arr, mults);
-        model.addAttribute("equation", latexText(text));
+    public String allEquation() {
+        String text = "Рівняння\\,поверхні:\\\\[0.1in]" + equation();
+        return latexText(text);
     }
 
     public String posOrNeg(double number) {
@@ -33,39 +37,38 @@ public class TextAdd{
         return posOrNeg(coeff) + mult;
     }
 
-    public void gequation(ModelMap model, String text) {
-        model.addAttribute("gequation", latexText(text));
-    }
 
     public String nameValue(String name, double value) {
         return name + " = " +value + ",\\,";
     }
 
-    public void coeff(ModelMap model, double[] arr){
+    public String coeff(){
         String text = "Виразимо\\,коефіцієнти:\\\\[0.1in]";
-        for (int i = 0;i<arr.length-1;i++)
-            text += nameValue(aLatex[i], arr[i]*((i > 2 && i < 9) ? 0.5:1.0));
-        model.addAttribute("coeff", latexText(text + " a_{0} = " + arr[arr.length-1]));
+        for (int i = 0;i<this.coeffs.length-1;i++)
+            text += nameValue(aLatex[i], this.coeffs[i]*((i > 2 && i < 9) ? 0.5:1.0));
+        return latexText(text + " a_{0} = " + this.coeffs[this.coeffs.length-1]);
     }
 
-    public void textI1(ModelMap model, double[] arr) {
-        String text = "Підрахуймо\\,ортогональні\\,інваріанти\\,I_{1},\\,I_{2},\\,I_{3}\\,та\\,K_{3}:\\\\[0.1in]"+"I_{1} = a_{11} + a_{22} + a_{33} = " + arr[0] + posOrNeg(arr[1]) + posOrNeg(arr[2]) + " = " + model.getAttribute("I1");
-        model.addAttribute("textI1", latexText(text));
+    public String textI1(double I1) {
+        String text = "Підрахуймо\\,ортогональні\\,інваріанти\\,I_{1},\\,I_{2},\\,I_{3}\\,та\\,K_{3}:\\\\[0.1in]"+"I_{1} = a_{11} + a_{22} + a_{33} = " + this.coeffs[0] + posOrNeg(this.coeffs[1]) + posOrNeg(this.coeffs[2]) + " = " + I1;
+        return latexText(text);
     }
 
 
-    public void textI2(ModelMap model, double[] arr) {
-        String text = "\\(I_{2} = \\)" + dets.sumDet2(new String[]{"a_{11}", "a_{12}", "a_{22}", "a_{11}", "a_{13}", "a_{33}", "a_{22}", "a_{23}", "a_{33}"}) + " = " + dets.sumDet2(new double[] {arr[0], arr[3]/2.0, arr[1], arr[0], arr[4]/2.0, arr[2], arr[1], arr[5]/2.0, arr[2]}) + " = \\(" + model.getAttribute("I2") + "\\)";
-        model.addAttribute("textI2", text);
+    public String textI2(double I2) {
+        return "\\(I_{2} = \\)" + sumDet2(new String[]{"a_{11}", "a_{12}", "a_{22}", "a_{11}", "a_{13}", "a_{33}", "a_{22}", "a_{23}", "a_{33}"}) + " = " + sumDet2(new double[] {this.coeffs[0], this.coeffs[3]/2.0, this.coeffs[1], this.coeffs[0], this.coeffs[4]/2.0, this.coeffs[2], this.coeffs[1], this.coeffs[5]/2.0, this.coeffs[2]}) + " = \\(" + I2 + "\\)";
     }
 
-    public void textI3(ModelMap model, double[] arr) {
-        String text = latexText("I_{3}\\,=\\,") + dets.det3(new String[] {"a_{11}", "a_{12}", "a_{13}", "a_{22}", "a_{23}", "a_{33}"}) + latexText("\\,=\\,") + dets.det3(new double[] {arr[0], arr[3] / 2.0, arr[4] / 2.0, arr[1], arr[5] / 2.0, arr[2]}) + latexText("\\,=\\,"+model.getAttribute("I3"));
-        model.addAttribute("textI3", text);
+    public String textI3(double I3) {
+        return latexText("I_{3}\\,=\\,") + det3(new String[] {"a_{11}", "a_{12}", "a_{13}", "a_{22}", "a_{23}", "a_{33}"}) + latexText("\\,=\\,") + det3(new double[] {this.coeffs[0], this.coeffs[3] / 2.0, this.coeffs[4] / 2.0, this.coeffs[1], this.coeffs[5] / 2.0, this.coeffs[2]}) + latexText("\\,=\\,"+I3);
     }
 
-    public void textK3(ModelMap model, double[] arr) {
-        String text = latexText("K_{3}\\,=\\,") + dets.det4(new String[] {"a_{11}", "a_{12}", "a_{13}", "a_{1}", "a_{22}", "a_{23}", "a_{2}", "a_{33}", "a_{3}", "a_{0}"}) + latexText("\\,=\\,") + dets.det4(new double[] {arr[0], arr[3] / 2.0, arr[4] / 2.0, arr[6] / 2.0, arr[1], arr[5] / 2.0, arr[7] / 2.0, arr[2], arr[8] / 2.0, arr[9]}) + latexText("\\,=\\," + model.getAttribute("K3"));
-        model.addAttribute("textK3", text);
+    public String textK3(double K3) {
+        return latexText("K_{3}\\,=\\,") + det4(new String[] {"a_{11}", "a_{12}", "a_{13}", "a_{1}", "a_{22}", "a_{23}", "a_{2}", "a_{33}", "a_{3}", "a_{0}"}) + latexText("\\,=\\,") + det4(new double[] {this.coeffs[0], this.coeffs[3] / 2.0, this.coeffs[4] / 2.0, this.coeffs[6] / 2.0, this.coeffs[1], this.coeffs[5] / 2.0, this.coeffs[7] / 2.0, this.coeffs[2], this.coeffs[8] / 2.0, this.coeffs[9]}) + latexText("\\,=\\," + K3);
     }
+
+    public String spaceLatex(String text) {
+        return text.replace(" ", "\\,");
+    }
+
 }

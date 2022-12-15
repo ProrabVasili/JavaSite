@@ -1,9 +1,11 @@
 package com.sso.web.testing;
 
-import static com.sso.web.logic.Det.det;
+import com.sso.web.logic.Det;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TestingDet {
+public class TestingDet extends Det{
+
     @org.junit.jupiter.api.Test
     public void det2() {
         double[][] arr = {{10, 5}, {2, 3}};

@@ -1,34 +1,42 @@
 package com.sso.web.testing;
 
-import org.springframework.ui.ModelMap;
-import java.util.Arrays;
+import com.sso.web.logic.CheckCount;
+import com.sso.web.logic.Converter;
 
-import static com.sso.web.logic.Butler.*;
-import static com.sso.web.logic.CheckCount.*;
+import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestingFunc {
     @org.junit.jupiter.api.Test
-    public void DoubleArrToString() {
+    public void doubleArrToString() {
         double[] arr = {1, 4, 5};
-        assertEquals("1.0,4.0,5.0", ats(arr));
+        assertEquals("1.0,4.0,5.0", Converter.arrDoubleToString(arr));
     }
 
     @org.junit.jupiter.api.Test
-    public void OnlyDoubleNums() {
+    public void onlyDoubleNums() {
         String[] arr = {"3.5", "4", "-2.5"};
-        assertEquals(Arrays.toString(new double[] {3.5, 4.0, -2.5}), Arrays.toString(checkNum(arr)));
+        assertEquals(Arrays.toString(new double[] {3.5, 4.0, -2.5}), Arrays.toString(CheckCount.checkNum(arr)));
     }
 
     @org.junit.jupiter.api.Test
-    public void NotAllDoubleNums() {
+    public void notAllDoubleNums() {
         String[] arr = {"Hello", "4", "-2.5"};
-        assertEquals(Arrays.toString(new double[] {Double.MAX_VALUE, 4.0, -2.5}), Arrays.toString(checkNum(arr)));
+        assertEquals(Arrays.toString(new double[] {Double.MAX_VALUE, 4.0, -2.5}), Arrays.toString(CheckCount.checkNum(arr)));
     }
 
     @org.junit.jupiter.api.Test
-    public void FindErrors() {
+    public void findErrors() {
         double[] arr = {Double.MAX_VALUE, 4, Double.MAX_VALUE};
-        assertEquals("a11, a33", countErrors(arr));
+        CheckCount check = new CheckCount(arr);
+        assertEquals("a11, a33", check.countErrors());
     }
+
+    @org.junit.jupiter.api.Test
+    public void countZeros() {
+        double[] arr = {-145, 0, Double.MAX_VALUE, 0, 0};
+        CheckCount check = new CheckCount(arr);
+        assertEquals(3, check.countZero());
+    }
+
 }

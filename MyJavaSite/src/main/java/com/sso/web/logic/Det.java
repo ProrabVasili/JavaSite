@@ -1,7 +1,5 @@
 package com.sso.web.logic;
 
-import org.springframework.ui.ModelMap;
-
 public class Det{
     public double det(double[][] arr){
         if (arr.length == 2)
@@ -80,7 +78,7 @@ public class Det{
         return det4(arr);
     }
 
-    public void myDets(ModelMap model, double[] numbers){
+    public double[] myDets(double[] numbers){
         double d11 = numbers[0];
         double d22 = numbers[1];
         double d33 = numbers[2];
@@ -102,11 +100,12 @@ public class Det{
                 masK11 = {{d11, d1}, {d1, d0}},
                 masK12 = {{d22, d2}, {d2, d0}},
                 masK13 = {{d33, d3}, {d3, d0}};
-        model.addAttribute("I1", d11+d22+d33);
-        model.addAttribute("I2", det(masI21)+det(masI22)+det(masI23));
-        model.addAttribute("I3", det(masI3));
-        model.addAttribute("K3", det(masK3));
-        model.addAttribute("K2", det(masK21)+det(masK22)+det(masK23));
-        model.addAttribute("K1", det(masK11)+det(masK12)+det(masK13));
+        double I1 = d11+d22+d33,
+               I2 = det(masI21)+det(masI22)+det(masI23),
+               I3 = det(masI3),
+               K3 = det(masK3),
+               K2 = det(masK21)+det(masK22)+det(masK23),
+               K1 = det(masK11)+det(masK12)+det(masK13);
+        return new double[]{I1, I2, I3, K1, K2, K3};
     }
 }

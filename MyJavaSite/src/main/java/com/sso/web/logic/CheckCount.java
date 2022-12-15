@@ -4,24 +4,30 @@ import java.util.ArrayList;
 
 
 public class CheckCount {
+    private double[] coeffs;
     private final String[] namesAtr = {"a11", "a22", "a33", "a12", "a13", "a23", "a1", "a2", "a3", "a0"};
-    public String countErrors(double[] arr) {
+
+    public CheckCount(double[] arr) {
+        this.coeffs = new double[arr.length];
+        System.arraycopy(arr, 0, this.coeffs, 0, arr.length);
+    }
+    public String countErrors() {
         ArrayList<String> errors = new ArrayList<>();
-        for (int i = 0;i<arr.length;i++)
-            if (arr[i] == Double.MAX_VALUE)
+        for (int i = 0;i<this.coeffs.length;i++)
+            if (this.coeffs[i] == Double.MAX_VALUE)
                 errors.add(namesAtr[i]);
         return String.join(", ", errors);
     }
 
-    public int cntZero(double[] arr) {
+    public int countZero() {
         int cnt = 0;
-        for (double i:arr)
+        for (double i:this.coeffs)
             if (i == 0)
                 cnt++;
         return cnt;
     }
 
-    public double[] checkNum(String[] numbers) {
+    public static double[] checkNum(String[] numbers) {
         double[] dnum = new double[numbers.length];
         for (int i = 0;i<numbers.length;i++){
             try {

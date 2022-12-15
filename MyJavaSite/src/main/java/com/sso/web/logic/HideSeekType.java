@@ -1,57 +1,54 @@
 package com.sso.web.logic;
 
-import org.springframework.ui.ModelMap;
-
 
 public class HideSeekType {
-    public void setType(ModelMap model, int num) {
-        model.addAttribute("numberOfType", num);
+    private double[] invariants;
+
+    public HideSeekType(double[] arr) {
+        this.invariants = new double[arr.length];
+        System.arraycopy(arr, 0, this.invariants, 0, arr.length);
     }
 
-    public void typeSSO(ModelMap model) {
-        Butler butler = new Butler();
-        double  I1 = butler.convertToDouble(model, "I1"),
-                I2 = butler.convertToDouble(model, "I2"),
-                I3 = butler.convertToDouble(model, "I3"),
-                K1 = butler.convertToDouble(model, "K1"),
-                K2 = butler.convertToDouble(model, "K2"),
-                K3 = butler.convertToDouble(model, "K3");
-        int num = -1;
+    public EnumType typeSSO() {
+        double  I1 = this.invariants[0],
+                I2 = this.invariants[1],
+                I3 = this.invariants[2],
+                K1 = this.invariants[3],
+                K2 = this.invariants[4],
+                K3 = this.invariants[5];
 
         if (I3 != 0) {
             if (I2 > 0 && I1*I3 > 0)
-                num = ellipticalType(K3);
+                return ellipticalType(K3);
             else if (I2 <= 0 || I1*I3 <= 0)
-                num = hyperbolicType(K3);
+                return hyperbolicType(K3);
         }
-        else
-            num = parabolicType(I1, I2, K1, K2, K3);
-        setType(model, num);
+        return parabolicType(I1, I2, K1, K2, K3);
     }
 
-    private int ellipticalType(double K3) {
+    private EnumType ellipticalType(double K3) {
         if (K3 < 0)
-            return 1;
+            return EnumType.Ellipsoid;
         else if (K3 > 0)
-            return 2;
+            return EnumType.ImaginaryEllipsoid;
         else
-            return 3;
+            return EnumType.ImaginaryConicalSurface;
     }
 
-    private int hyperbolicType(double K3) {
+    private EnumType hyperbolicType(double K3) {
         if (K3 > 0)
-            return 4;
+            return EnumType.OneSheetHyperboloid;
         else if (K3 < 0)
-            return 5;
+            return EnumType.TwoSheetHyperboloid;
         else
-            return 6;
+            return EnumType.ConicalSurface;
     }
 
-    private int parabolicType(double I1, double I2, double K1, double K2, double K3) {
+    private EnumType parabolicType(double I1, double I2, double K1, double K2, double K3) {
         if (K3 < 0)
-            return 7;
+            return EnumType.EllipticParaboloid;
         else if (K3 > 0)
-            return 8;
+            return EnumType.HyperbolicParaboloid;
         else {
             if (I2 > 0)
                 return I2GreaterZero(I1, K2);
@@ -61,33 +58,33 @@ public class HideSeekType {
                 if (K2 == 0)
                     return K2Zero(K1);
                 else
-                    return 17;
+                    return EnumType.ParabolicCylinder;
             }
         }
     }
 
-    private int I2GreaterZero(double I1, double K2) {
+    private EnumType I2GreaterZero(double I1, double K2) {
         if (I1*K2 < 0)
-            return 9;
+            return EnumType.EllipticCylinder;
         else if (I1*K2 > 0)
-            return 10;
+            return EnumType.ImaginaryEllipticCylinder;
         else
-            return 11;
+            return EnumType.PairImaginaryIntersectingPlanes;
     }
 
-    private int I2LessZero(double K2) {
+    private EnumType I2LessZero(double K2) {
         if (K2 != 0)
-            return 12;
+            return EnumType.HyperbolicCylinder;
         else
-            return 13;
+            return EnumType.PairIntersectingPlanes;
     }
 
-    private int K2Zero(double K1) {
+    private EnumType K2Zero(double K1) {
         if (K1 < 0)
-            return 14;
+            return EnumType.PairParallelPlanes;
         else if (K1 > 0)
-            return 15;
+            return EnumType.PairImaginaryParallelPlanes;
         else
-            return 16;
+            return EnumType.PairCoincidentPlanes;
     }
 }
