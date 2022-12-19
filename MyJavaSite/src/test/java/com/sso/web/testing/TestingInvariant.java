@@ -1,8 +1,6 @@
 package com.sso.web.testing;
 
 import com.sso.web.logic.Det;
-import com.sso.web.logic.HideSeekType;
-import com.sso.web.presentation.Result;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -43,5 +41,4 @@ public class TestingInvariant extends Det{
         double[] invariant = myDets(new double[] {4, 0, 0, 0, 0, 0, 0, 0, 0, -6});
         assertEquals(-24.0, invariant[3]);
     }
-
 }
