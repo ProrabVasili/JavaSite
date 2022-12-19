@@ -4,9 +4,14 @@ package com.sso.web.logic;
 public class HideSeekType {
     private double[] invariants;
 
-    public HideSeekType(double[] arr) {
-        this.invariants = new double[arr.length];
-        System.arraycopy(arr, 0, this.invariants, 0, arr.length);
+    public HideSeekType() throws Exception {
+        this(new double[]{1.0, 2.0});
+    }
+    public HideSeekType(double[] arr) throws Exception{
+        if (arr.length != 6)
+            throw new Exception("Access denied - Array must be 6 in length");
+        this.invariants = new double[6];
+        System.arraycopy(arr, 0, this.invariants, 0, 6);
     }
 
     public EnumType typeSSO() {

@@ -11,11 +11,16 @@ import org.springframework.ui.ModelMap;
 public class Result extends Det {
     private double[] coeffs = new double[10];
 
-    public Result(double[] arr) {
-        System.arraycopy(arr, 0, this.coeffs, 0, arr.length);
+    public Result() throws Exception {
+        this(new double[] {1.0, 2.0});
+    }
+    public Result(double[] arr) throws Exception{
+        if (arr.length != 10)
+            throw new Exception("Access denied - Array must be 10 in length");
+        System.arraycopy(arr, 0, this.coeffs, 0, 10);
     }
     private final String[] namesAtr = {"a11", "a22", "a33", "a12", "a13", "a23", "a1", "a2", "a3", "a0"};
-    public void answerHTML(double[] invariants, ModelMap model) {
+    public void answerHTML(double[] invariants, ModelMap model) throws Exception {
         TextAdd txtAdd = new TextAdd(this.coeffs);
         double  I1 = invariants[0],
                 I2 = invariants[1],
@@ -73,7 +78,7 @@ public class Result extends Det {
         finalAnswer(model, new String[]{answerText, textK2, answerK2, textK1, answerK1, typeSSO});
     }
 
-    private void finalAnswer(ModelMap model, String[] arr) {
+    private void finalAnswer(ModelMap model, String[] arr) throws Exception {
         TextAdd txtAdd = new TextAdd(this.coeffs);
         model.addAttribute("why", txtAdd.latexText(arr[0]));
         model.addAttribute("textK2", arr[1]);
@@ -84,7 +89,7 @@ public class Result extends Det {
         model.addAttribute("answer", txtAdd.latexText("Відповідь:\\,\\underline{" + txtAdd.spaceLatex(arr[5]) + "}"));
     }
 
-    public void solution(ModelMap model) {
+    public void solution(ModelMap model) throws Exception {
         TextAdd txtAdd = new TextAdd(this.coeffs);
         addAtrs(model);
         double[] invariants = myDets(this.coeffs);

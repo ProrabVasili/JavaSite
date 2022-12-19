@@ -4,8 +4,13 @@ package com.sso.web.logic;
 public class TextAdd extends Det {
 
     private double[] coeffs = new double[10];
+    public TextAdd() throws Exception {
+        this(new double[] {1.0, 2.0});
+    }
 
-    public TextAdd(double[] arr) {
+    public TextAdd(double[] arr) throws Exception {
+        if (arr.length != 10)
+            throw new Exception("Access denied - Array must be non-zero");
         System.arraycopy(arr, 0, this.coeffs, 0, 10);
     }
     public String latexText(String text) {

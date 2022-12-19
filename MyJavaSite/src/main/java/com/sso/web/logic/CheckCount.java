@@ -7,6 +7,9 @@ public class CheckCount {
     private double[] coeffs;
     private final String[] namesAtr = {"a11", "a22", "a33", "a12", "a13", "a23", "a1", "a2", "a3", "a0"};
 
+    public CheckCount() throws Exception {
+        throw new Exception("Access denied - Array must be non-zero");
+    }
     public CheckCount(double[] arr) {
         this.coeffs = new double[arr.length];
         System.arraycopy(arr, 0, this.coeffs, 0, arr.length);
@@ -21,8 +24,8 @@ public class CheckCount {
 
     public int countZero() {
         int cnt = 0;
-        for (double i:this.coeffs)
-            if (i == 0)
+        for (int i = 0;i<6;i++)
+            if (this.coeffs[i] == 0)
                 cnt++;
         return cnt;
     }

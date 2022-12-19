@@ -22,12 +22,12 @@ public class MainController {
     }
 
     @RequestMapping(value ="/submit", method = RequestMethod.POST)
-    public String getInput(ModelMap model, GetCoeff coeffEquation) {
+    public String getInput(ModelMap model, GetCoeff coeffEquation) throws Exception {
         return PageWritter.addingEquation(equRepository, model, coeffEquation);
     }
 
     @GetMapping("/equation/{id}")
-    public String pageShower(@PathVariable(value = "id") long id, ModelMap model) {
+    public String pageShower(@PathVariable(value = "id") long id, ModelMap model) throws Exception {
         PageWritter.representSolution(equRepository, id, model);
         return "result";
     }

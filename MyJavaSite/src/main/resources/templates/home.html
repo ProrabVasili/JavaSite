@@ -39,7 +39,7 @@
         </form>
     </div>
     <div class = "main">
-        <p class = "error" th:text = "${success} ? 'Вуп' : ${Errors}" />
+        <p class = "error" th:text = "${success} ? '' : ${Errors}" />
         <p class = "error" th:text = "${postsLen} ? '' : 'Список введених рівнянь пустий'" />
         <div th:each = "equ : ${posts}" class = "alert alert-info mt-2">
             <h3 th:text = "${equ.equation}" />
