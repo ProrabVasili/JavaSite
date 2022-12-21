@@ -1,12 +1,14 @@
 package com.sso.web.logic;
 
 public class Det{
-    public double det(double[][] arr){
-        if (arr.length == 2)
+    public double det(double[][] arr) throws Exception{
+        if (arr.length == 1)
+            return arr[0][0];
+        else if (arr.length == 2)
             return arr[0][0]*arr[1][1]-arr[0][1]*arr[1][0];
         else if (arr.length == 3)
             return arr[0][0]*arr[1][1]*arr[2][2]+arr[0][1]*arr[1][2]*arr[2][0]+arr[0][2]*arr[1][0]*arr[2][1]-arr[0][2]*arr[1][1]*arr[2][0]-arr[0][0]*arr[1][2]*arr[2][1]-arr[0][1]*arr[1][0]*arr[2][2];
-        else {
+        else if (arr.length == 4){
             double[][] mas = new double[3][3];
             double sgn = 1, s = 0;
             for (int i = 0;i<4;i++){
@@ -27,6 +29,9 @@ public class Det{
             }
             return s;
         }
+        else
+            throw new Exception("Access denied - Array must be 6 in length");
+
     }
 
     public String det2(String[] nums) {
@@ -78,7 +83,7 @@ public class Det{
         return det4(arr);
     }
 
-    public double[] myDets(double[] numbers){
+    public double[] myDets(double[] numbers) throws Exception {
         double d11 = numbers[0];
         double d22 = numbers[1];
         double d33 = numbers[2];

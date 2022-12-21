@@ -23,8 +23,8 @@ public class CheckCount {
     }
 
     public int countZero() {
-        int cnt = 0;
-        for (int i = 0;i<6;i++)
+        int cnt = 0, maxLen = Math.min(this.coeffs.length, 5);
+        for (int i = 0;i<maxLen+1;i++)
             if (this.coeffs[i] == 0)
                 cnt++;
         return cnt;
