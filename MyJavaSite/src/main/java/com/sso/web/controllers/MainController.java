@@ -11,24 +11,26 @@ import com.sso.web.logic.GetCoeff;
 
 @Controller
 public class MainController {
-
     @Autowired
     private EquationsRepository equRepository;
 
     @RequestMapping(value ="/", method = RequestMethod.GET)
     public String home(ModelMap model) {
-        PageWritter.startSite(equRepository, model);
+        PageWritter pageWritter = new PageWritter(equRepository);
+        pageWritter.startSite(model);
         return "home";
     }
 
     @RequestMapping(value ="/submit", method = RequestMethod.POST)
     public String getInput(ModelMap model, GetCoeff coeffEquation) throws Exception {
-        return PageWritter.addingEquation(equRepository, model, coeffEquation);
+        PageWritter pageWritter = new PageWritter(equRepository);
+        return pageWritter.addingEquation(model, coeffEquation);
     }
 
     @GetMapping("/equation/{id}")
     public String pageShower(@PathVariable(value = "id") long id, ModelMap model) throws Exception {
-        PageWritter.representSolution(equRepository, id, model);
+        PageWritter pageWritter = new PageWritter(equRepository);
+        pageWritter.representSolution(id, model);
         return "result";
     }
 }

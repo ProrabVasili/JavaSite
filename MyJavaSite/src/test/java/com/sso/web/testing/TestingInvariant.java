@@ -42,4 +42,5 @@ public class TestingInvariant extends Det{
         double[] invariant = myDets(new double[] {4, 0, 0, 0, 0, 0, 0, 0, 0, -6});
         assertEquals(-24.0, invariant[3]);
     }
+
 }

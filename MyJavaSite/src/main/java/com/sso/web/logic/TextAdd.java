@@ -1,9 +1,8 @@
 package com.sso.web.logic;
 
-
 public class TextAdd extends Det {
 
-    private double[] coeffs = new double[10];
+    private final double[] coeffs = new double[10];
     public TextAdd() throws Exception {
         this(new double[] {1.0, 2.0});
     }

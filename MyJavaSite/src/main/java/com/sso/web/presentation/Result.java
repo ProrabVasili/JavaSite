@@ -9,7 +9,7 @@ import org.springframework.ui.ModelMap;
 
 
 public class Result extends Det {
-    private double[] coeffs = new double[10];
+    private final double[] coeffs = new double[10];
 
     public Result() throws Exception {
         this(new double[] {1.0, 2.0});

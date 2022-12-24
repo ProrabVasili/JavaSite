@@ -2,7 +2,7 @@ package com.sso.web.logic;
 
 
 public class HideSeekType {
-    private double[] invariants;
+    private final double[] invariants;
 
     public HideSeekType() throws Exception {
         this(new double[]{1.0, 2.0});

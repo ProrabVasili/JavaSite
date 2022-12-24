@@ -12,15 +12,25 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class PageWritter {
-    public static void startSite(EquationsRepository equRepository, ModelMap model) {
-        Iterable<Equation> posts = equRepository.findAll();
+    private final EquationsRepository equRepository;
+
+    public PageWritter() throws Exception {
+        throw new Exception("Access denied - Repository not found");
+    }
+
+    public PageWritter(EquationsRepository repository) {
+        this.equRepository = repository;
+    }
+
+    public void startSite(ModelMap model) {
+        Iterable<Equation> posts = this.equRepository.findAll();
         model.addAttribute("posts", posts);
-        if (equRepository.count() != 0)
+        if (this.equRepository.count() != 0)
             model.addAttribute("postsLen", "Len");
         model.addAttribute("title", "Main page");
     }
 
-    public static String addingEquation(EquationsRepository equRepository, ModelMap model, GetCoeff coeffEquation) throws Exception {
+    public String addingEquation(ModelMap model, GetCoeff coeffEquation) throws Exception {
         double[] a = CheckCount.checkNum(coeffEquation.gimmeNum());
         Result result = new Result(a);
         CheckCount check = new CheckCount(a);
@@ -32,23 +42,23 @@ public class PageWritter {
         }
         else {
             result.solution(model);
-            addNewEquation(equRepository, model, a);
+            addNewEquation(model, a);
             return "result";
         }
     }
 
-    private static void addNewEquation(EquationsRepository equRepository, ModelMap model, double[] arr) throws Exception {
+    private void addNewEquation(ModelMap model, double[] arr) throws Exception {
         String type = replaceSpace((String) model.getAttribute("typeSSO")); //typeSSO = type Second-Order Surface
         TextAdd txtAdd = new TextAdd(arr);
         Equation post = new Equation(txtAdd.equation(), Converter.arrDoubleToString(arr), type);
-        equRepository.save(post);
+        this.equRepository.save(post);
     }
 
-    public static String replaceSpace(String text) {
+    private String replaceSpace(String text) {
         return text.replace("\\,", " ");
     }
-    public static void representSolution(EquationsRepository equRepository, long id, ModelMap model) throws Exception {
-        Optional<Equation> post = equRepository.findById(id);
+    public void representSolution(long id, ModelMap model) throws Exception {
+        Optional<Equation> post = this.equRepository.findById(id);
         ArrayList<Equation> res = new ArrayList<>();
         post.ifPresent(res::add);
         double[] arr = Converter.arrStringToDouble(res);

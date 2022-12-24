@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 
 public class CheckCount {
-    private double[] coeffs;
+    private final double[] coeffs;
     private final String[] namesAtr = {"a11", "a22", "a33", "a12", "a13", "a23", "a1", "a2", "a3", "a0"};
 
     public CheckCount() throws Exception {
